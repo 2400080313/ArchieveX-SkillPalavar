@@ -7,7 +7,7 @@ import os
 from typing import Dict, Any, List, Optional
 import boto3
 from botocore.exceptions import ClientError, NoCredentialsError, PartialCredentialsError, EndpointConnectionError
-from config import DEFAULT_REGION
+from config import DEFAULT_REGION, get_config_val
 
 class S3ClientManager:
     """Safe wrapper around AWS Boto3 SDK with guardrails and demo fallback."""
@@ -19,10 +19,10 @@ class S3ClientManager:
         aws_session_token: Optional[str] = None,
         region_name: Optional[str] = None
     ):
-        self.region = region_name or os.getenv("AWS_DEFAULT_REGION", DEFAULT_REGION)
-        self.aws_access_key = aws_access_key or os.getenv("AWS_ACCESS_KEY_ID")
-        self.aws_secret_key = aws_secret_key or os.getenv("AWS_SECRET_ACCESS_KEY")
-        self.aws_session_token = aws_session_token or os.getenv("AWS_SESSION_TOKEN")
+        self.region = region_name or get_config_val("AWS_DEFAULT_REGION", DEFAULT_REGION)
+        self.aws_access_key = aws_access_key or get_config_val("AWS_ACCESS_KEY_ID")
+        self.aws_secret_key = aws_secret_key or get_config_val("AWS_SECRET_ACCESS_KEY")
+        self.aws_session_token = aws_session_token or get_config_val("AWS_SESSION_TOKEN")
         self._s3_client = None
         self._sts_client = None
 

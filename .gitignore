@@ -25,5 +25,5 @@ Thumbs.db
 .coverage
 htmlcov/
 
-# Streamlit config / cache
-.streamlit/
+# Streamlit local secrets
+.streamlit/secrets.toml

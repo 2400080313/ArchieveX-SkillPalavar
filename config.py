@@ -10,8 +10,18 @@ APP_NAME = "ArchiveX"
 APP_TAGLINE = "Intelligent Amazon S3 Archive & Lifecycle Decision Support Platform"
 APP_VERSION = "2.4.0-hackathon"
 
+def get_config_val(key: str, default: Any = None) -> Any:
+    """Safely retrieves a configuration value from Streamlit secrets or OS environment."""
+    try:
+        import streamlit as st
+        if hasattr(st, "secrets") and key in st.secrets:
+            return st.secrets[key]
+    except Exception:
+        pass
+    return os.getenv(key, default)
+
 # Default AWS Settings
-DEFAULT_REGION = os.getenv("AWS_DEFAULT_REGION", "us-east-1")
+DEFAULT_REGION = get_config_val("AWS_DEFAULT_REGION", "us-east-1")
 DEMO_MODE_DEFAULT = True
 
 # Standard AWS S3 Pricing (us-east-1 reference rates per GB-month)

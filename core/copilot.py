@@ -8,13 +8,15 @@ import os
 import re
 from typing import Dict, Any, Optional
 
+from config import get_config_val
+
 class ArchiveCopilot:
     """
     Intelligent explanation engine for S3 lifecycle and archive decision support.
     Defaults to deterministic 'Rule-based Archive Assistant' unless an LLM API key is explicitly configured.
     """
     def __init__(self, api_key: Optional[str] = None):
-        self.api_key = api_key or os.getenv("GEMINI_API_KEY") or os.getenv("OPENAI_API_KEY")
+        self.api_key = api_key or get_config_val("GEMINI_API_KEY") or get_config_val("OPENAI_API_KEY")
         self.engine_mode = "LLM-Augmented Copilot" if self.api_key else "Rule-based Archive Assistant"
 
     def is_llm_active(self) -> bool:
